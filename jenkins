@@ -8,8 +8,8 @@ stage('git ') {
    sh "rm -rf snapdeal-k8s && git clone https://github.com/agiratech-mahesh/snapdeal-k8s.git"
 }
 stage('k8s deploy') {
-    sh "cp -r /home/ubuntu/workspace/k8/snap /home "
-    sh '''cd /home/k8s
+    sh "cp -r /home/ubuntu/workspace/snap/snapdeal-k8s /home/ "
+    sh '''cd /home/snapdeal-k8s
           kubectl create -f deployment.yml 
           kubectl create -f service.yml '''
 }
