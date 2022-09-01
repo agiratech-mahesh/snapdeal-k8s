@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snapdeal
+  labels:
+    tier: frontend
+    app: snap
+spec:
+  selector:
+    matchLabels:
+      app: snapdeal
+  replicas: 2
+  template:
+     metadata:
+       name: snapdeal
+       labels:
+         app: snapdeal
+     spec:
+       containers:
+         - name: snapdeal
+           image: maheshagiratech/mah
