@@ -6,12 +6,11 @@ stage('git ') {
    sh "git config --global  user.name agiratech-mahesh"
    sh "git config --global  user.email mahesh.m@agiratech.com"
    sh "rm -rf snapdeal-k8s && git clone https://github.com/agiratech-mahesh/snapdeal-k8s.git"
-   }
+}
 stage('k8s deploy') {
-    sh ''''cp -r /home/ubuntu/workspace/k8/snap /home
-    cd /home/snap
-    kubectl create -f jenkins-deployment.yml 
-     kubectl create -f jenkins-service.yml 
-     ''''
+    sh "cp -r /home/ubuntu/workspace/k8/snap /home "
+    sh '''cd /home/k8s
+          kubectl create -f deployment.yml 
+          kubectl create -f service.yml '''
 }
 }
