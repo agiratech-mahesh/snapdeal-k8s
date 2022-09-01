@@ -1,36 +1,20 @@
-pipeline {
- agent any 
-   stages {
-       stage 
-     stage ('docker login') {
-       steps {
-         sh" docker login -u maheshagiratech -p dckr_pat_QiQRDlDTHhDMibM4mnWGmhv7idI "
-            }
-          }
-     stage ('git login') {
-            steps {
-             sh (""""
-                  git config --global  user.name agiratech-mahesh
-                  git config --global  user.email mahesh.m@agiratech.com
-                  rm -rf snapdeal-k8s && git clone https://github.com/agiratech-mahesh/snapdeal-k8s.git
-                  """")
-                   }
-                   }
-     stage ('docker build') {
-       steps {
-         sh " cd /var/jenkins_home/workspace/snapdeal-k8s "
-         sh " docker build -t maheshagiratech/k8s . "
-         sh " docker push maheshagiratech/k8s "
-         }	
-       }
-     stage ('k8s deploy') {
-       steps {
-         sh " cd /var/jenkins_home/workspace/snapdeal-k8s "
-         sh " kubectl create -f jenkins-deployment.yml "
-         sh " kubectl create -f jenkins-service.yml "
-          }
-        } 
-      }
-     }
-     
- 
+node('master'){
+stage('docker') {
+   sh" docker login -u maheshagiratech -p dckr_pat_QiQRDlDTHhDMibM4mnWGmhv7idI "
+}
+stage('git ') {
+   sh "git config --global  user.name agiratech-mahesh"
+   sh "git config --global  user.email mahesh.m@agiratech.com"
+   sh "rm -rf snapdeal-k8s && git clone https://github.com/agiratech-mahesh/snapdeal-k8s.git"
+}
+stage('build') {
+   sh " cd /home/ubuntu/workspace/snapdeal-k8s "
+   sh "docker build -t maheshagiratech/k8s ."
+   sh "docker push maheshagiratech/k8s"
+ }
+stage('k8s deploy') {
+    sh "cd /home/ubuntu/workspace/k8 "
+    sh " kubectl create -f jenkins-deployment.yml "
+    sh " kubectl create -f jenkins-service.yml "
+}
+}
